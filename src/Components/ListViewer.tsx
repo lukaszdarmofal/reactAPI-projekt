@@ -1,7 +1,7 @@
 
 import ListElement from "./ListElement.tsx";
 import {useState} from "react";
-
+import "../styles/ListViever.css"
 
 type Human = {
     name: string;
@@ -40,7 +40,7 @@ const ListViewer = ({people}: ListViewerProps ) => {
             />
 
             {
-                searchQuery.length == 0 ? <p></p> :
+                searchQuery.length == 0 ? <p className={"grr"}></p> :
 
                 people
                     .filter(n => n.name.toLowerCase().includes(searchQuery.toLowerCase()))

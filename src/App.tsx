@@ -62,7 +62,7 @@ function App() {
 
   return (
     <>
-        <button onClick={fetchData}>FETCHUJ TOOOO</button>
+        <button className={"fetchButton"} onClick={fetchData}>Załaduj Dane</button>
         <h4>{fetchOutput}</h4>
 
         { viewList ? <ListViewer people={people} /> : null }
