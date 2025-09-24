@@ -1,4 +1,6 @@
+
 import ListElement from "./ListElement.tsx";
+import {useState} from "react";
 
 
 type Human = {
@@ -14,20 +16,55 @@ type ListViewerProps = {
 }
 
 const ListViewer = ({people}: ListViewerProps ) => {
+
+    const [searchQuery, setSearchQuery] = useState("");
+    const [displayedPerson, setDisplayedPerson] = useState<Human>( {name: "", height: "", mass: "", birth_year: "", gender: ""} );
+    const [displayElement, setDisplayElement] = useState<boolean>(false)
+
+    function displayInfo() {
+        console.log(displayedPerson);
+        setDisplayElement(true)
+        setSearchQuery("")
+    }
+
     return (
         <>
+            <input
+                type={"text"}
+                placeholder={"Szukaj:"}
+                value={searchQuery}
+                onChange={ (e) => {
+                    setSearchQuery(e.target.value)
+                    setDisplayElement(false)
+                }}
+            />
+
             {
-                people.map((person: Human, index: number) => (
-                        <ListElement
-                            key={person.name || index}
-                            name={person.name}
-                            height={person.height}
-                            mass={person.mass}
-                            birth_year={person.birth_year}
-                            gender={person.gender}
-                        />
+                searchQuery.length == 0 ? <p></p> :
+
+                people
+                    .filter(n => n.name.toLowerCase().includes(searchQuery.toLowerCase()))
+                    .map((person: Human, index: number) => (
+                    <p key={index} onClick={ () => {
+                        setDisplayedPerson(person)
+                        displayInfo()} }>
+
+                        {person.name}
+                    </p>
                 ))
             }
+
+            {
+                displayElement && <ListElement
+                    name={displayedPerson.name}
+                    height={displayedPerson.height}
+                    mass={displayedPerson.mass}
+                    birth_year={displayedPerson.birth_year}
+                    gender={displayedPerson.gender}
+                />
+            }
+
+
         </>
     )
 }
